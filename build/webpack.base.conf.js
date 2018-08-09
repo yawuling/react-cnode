@@ -8,7 +8,7 @@ module.exports = {
     app: './src/index.js'
   },
   output: {
-    path: path.resolve(__dirname, '../dist'),
+    path: config.build.assetsRoot,
     filename: '[name].js',
     publicPath: process.env.NODE_ENV === 'production'
       ? config.build.assetsPublicPath : config.dev.assetsPublicPath
@@ -21,21 +21,13 @@ module.exports = {
       {
         test: /\.jsx$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader',
-            options: {
-              presets: ['react']
-            }
-          }
-        ]
+        loader: 'babel-loader'
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         include: [utils.resolve('src'), utils.resolve('node_modules/webpack-dev-server/client')]
       },
-      ...utils.styleLoaders(process.env.NODE_ENV === 'production' ? config.build.sourceMap : config.dev.sourceMap),
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url-loader',

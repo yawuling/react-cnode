@@ -1,5 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import HelloWorld from './components/HelloWorld/HelloWorld';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Index from './views/Index'
+import './assets/css/base.scss'
 
-ReactDOM.render(<HelloWorld />, document.getElementById('app'));
+ReactDOM.render(<Index />, document.getElementById('app'))

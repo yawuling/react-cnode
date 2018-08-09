@@ -10,6 +10,12 @@ const utils = require('./utils')
 
 const devWebpackConf = merge(baseWebpackConfig, {
   mode: 'development',
+  module: {
+    rules: utils.styleLoaders({
+      sourceMap: config.dev.sourceMap,
+      extract: false
+    }),
+  },
   devtool: config.dev.devtool,
   devServer: {
     clientLogLevel: 'warning',
@@ -22,7 +28,7 @@ const devWebpackConf = merge(baseWebpackConfig, {
     compress: true,
     host: 'localhost',
     port: 3000,
-    open: true,
+    open: false,
     quiet: true,
     overlay: {
       warnings: false,
@@ -32,9 +38,11 @@ const devWebpackConf = merge(baseWebpackConfig, {
     proxy: config.dev.proxy,
     before: config.dev.before 
   },
+  optimization: {
+    noEmitOnErrors: true
+  },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new HtmlWebpackPlugin({
       filename: 'index.html',
       template: 'public/index.html',
@@ -51,7 +59,7 @@ module.exports = new Promise((resolve, reject) => {
       devWebpackConf.devServer.port = port
       devWebpackConf.plugins.push(new FriendlyErrorsPlugin({
         compilationSuccessInfo: {
-          message: [`Your application is running here: http://${devWebpackConf.devServer.host}:${port}`]
+          messages: [`Your application is running here: http://${devWebpackConf.devServer.host}:${port}`]
         },
         onErrors: config.dev.notifyOnError
           ? utils.createNotifierCallback()

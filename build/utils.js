@@ -1,4 +1,5 @@
 const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const config = require('./config')
 const packageConfig = require('../package.json')
 
@@ -14,10 +15,10 @@ exports.assestPath = _path => {
   return path.join(assetsSubDirectory, _path)
 }
 
-exports.styleLoaders = (sourceMap) => {
+exports.styleLoaders = ({sourceMap, extract}) => {
 
   const generateLoaders = loader => {
-    let loaders = ['style', 'css', 'postcss']
+    let loaders = extract ? ['css', 'postcss'] : ['style', 'css', 'postcss']
     loader && loaders.push(loader)
     let ruleConfig = []
     
@@ -44,11 +45,23 @@ exports.styleLoaders = (sourceMap) => {
   
   let rules = []
 
-  for (let extension in cssLoaders) {
-    rules.push({
-      test: new RegExp('\\.' + extension + '$'),
-      use: cssLoaders[extension]
-    })
+  if (extract) {
+    for (let extension in cssLoaders) {
+      rules.push({
+        test: new RegExp('\\.' + extension + '$'),
+        use: [
+          MiniCssExtractPlugin.loader,
+          ...cssLoaders[extension]
+        ]
+      })
+    }
+  } else {
+    for (let extension in cssLoaders) {
+      rules.push({
+        test: new RegExp('\\.' + extension + '$'),
+        use: cssLoaders[extension]
+      })
+    }
   }
 
   return rules
