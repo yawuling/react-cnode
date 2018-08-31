@@ -1,6 +1,11 @@
 import React from 'react'
-import ReactDOM from 'react-dom'
-import Index from './views/Index'
-import './assets/css/base.scss'
+import { render } from 'react-dom'
+import { BrowserRouter as Router } from 'react-router-dom'
+import routes from './routes'
 
-ReactDOM.render(<Index />, document.getElementById('app'))
+render(
+  <Router>
+    {routes}
+  </Router>,
+  document.getElementById('app')
+)
