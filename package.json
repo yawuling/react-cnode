@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/yawuling/react-cnode#readme",
   "dependencies": {
+    "antd-mobile": "^2.2.5",
     "axios": "^0.18.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",

@@ -20,10 +20,20 @@ const prodWebpackConfig = merge(baseWebpackConfig, {
   devtool: config.build.sourceMap ? config.build.devtool : false,
   output: {
     path: config.build.assetsRoot,
-    filename: utils.assestPath('js/[name].[chunkhash].js'),
-    chunkFilename: utils.assestPath('js/[id].[chunkhash].js')
+    filename: utils.assestPath('js/[name].[chunkhash:8].js'),
+    chunkFilename: utils.assestPath('js/[name].[chunkhash:8].js')
   },
   optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendors: {
+          name: 'vendors',
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10
+        }
+      }
+    },
     minimizer: [
       new UglifyWebpackPlugin({
         cache: true,

@@ -14,7 +14,6 @@ class App extends Component {
   render() {
     return (
       <div>
-        { this.props.login.loginName }
         <Switch>
           {
             routes.map((item, key) => {
