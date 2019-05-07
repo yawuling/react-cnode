@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import Header from '../components/HomePage/Header'
 import { Tabs } from 'antd-mobile'
+import { connect } from 'react-redux'
+import { selectTab, fetchTopics } from '../store/actions'
+import List from '../components/HomePage/List'
 
 class HomePage extends Component {
   constructor (props) {
@@ -9,6 +12,7 @@ class HomePage extends Component {
       fadeIn: true
     }
   }
+
   tabs = [
     {
       title: '全部',
@@ -27,15 +31,21 @@ class HomePage extends Component {
       sub: 'job'
     }
   ]
+
+  handleTabClick = tab => {
+    const { dispatch } = this.props
+    dispatch(selectTab(tab.sub))
+  }
+
   render () {
     return (
       <div className={ this.state.fadeIn ? 'fade-in' : '' }>
         <Header unreadMsmNum={1} />
         <div className="home-container">
-          <Tabs tabs={this.tabs} initialPage={'all'}>
+          <Tabs tabs={this.tabs} initialPage={this.props.activeTab} onTabClick={this.handleTabClick}>
             {
               this.tabs.map((tab, index) => 
-                <div key={tab.sub}>{tab.title}</div>
+                <List key={tab.sub} />
               )
             }
           </Tabs>
@@ -43,6 +53,28 @@ class HomePage extends Component {
       </div>
     )
   }
+
+  componentWillMount () {
+    const { activeTab, dispatch } = this.props
+    dispatch(fetchTopics(activeTab))
+  }
+
+  componentWillReceiveProps (newProps) {
+    const { activeTab, tabs, dispatch } = newProps
+
+    if (this.props.activeTab !== activeTab && (!tabs[activeTab] || !tabs[activeTab].topics.length)) {
+      dispatch(fetchTopics(activeTab))
+    }
+  }
 }
 
-export default HomePage
+function mapStatuToProps (state) {
+  const { homePage } = state
+  const { activeTab, tabs } = homePage
+  return {
+    activeTab,
+    tabs
+  }
+}
+
+export default connect(mapStatuToProps)(HomePage)
