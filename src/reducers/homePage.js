@@ -52,7 +52,38 @@ const getTabsData = (state = {}, action) => {
 
 export default (state = {
   activeTab: 'all',
-  tabs: {}
+  tabs: {
+    'all': {
+      isFetching: false,
+      topics: [],
+      pageNo: 1,
+      pageSize: 20
+    },
+    'good': {
+      isFetching: false,
+      topics: [],
+      pageNo: 1,
+      pageSize: 20
+    },
+    'share': {
+      isFetching: false,
+      topics: [],
+      pageNo: 1,
+      pageSize: 20
+    },
+    'ask': {
+      isFetching: false,
+      topics: [],
+      pageNo: 1,
+      pageSize: 20
+    },
+    'job': {
+      isFetching: false,
+      topics: [],
+      pageNo: 1,
+      pageSize: 20
+    }
+  }
 }, action) => {
   const activeTab = selectTab(state.activeTab, action)
   const tabs = getTabsData(state.tabs, action)

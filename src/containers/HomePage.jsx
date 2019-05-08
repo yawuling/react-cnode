@@ -37,6 +37,11 @@ class HomePage extends Component {
     dispatch(selectTab(tab.sub))
   }
 
+  handleTabRefresh = () => {
+    const { activeTab, dispatch } = this.props
+    dispatch(fetchTopics(activeTab))
+  }
+
   render () {
     return (
       <div className={ this.state.fadeIn ? 'fade-in' : '' }>
@@ -44,9 +49,10 @@ class HomePage extends Component {
         <div className="home-container">
           <Tabs tabs={this.tabs} initialPage={this.props.activeTab} onTabClick={this.handleTabClick}>
             {
-              this.tabs.map((tab, index) => 
-                <List key={tab.sub} />
-              )
+              this.tabs.map((tab, index) => {
+                let { isFetching, topics } = this.props.tabs[tab.sub]
+                return <List key={tab.sub} isFetching={isFetching} topics={topics} refresh={this.handleTabRefresh} />
+              })
             }
           </Tabs>
         </div>
@@ -62,7 +68,7 @@ class HomePage extends Component {
   componentWillReceiveProps (newProps) {
     const { activeTab, tabs, dispatch } = newProps
 
-    if (this.props.activeTab !== activeTab && (!tabs[activeTab] || !tabs[activeTab].topics.length)) {
+    if (this.props.activeTab !== activeTab && !tabs[activeTab].topics.length) {
       dispatch(fetchTopics(activeTab))
     }
   }

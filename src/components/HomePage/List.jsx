@@ -1,27 +1,22 @@
 import React, { Component } from 'react'
 import { PullToRefresh } from 'antd-mobile'
 import ReactDOM from 'react-dom'
+import ListItem from './ListItem'
 
 export default class List extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      refreshing: false,
       height: document.documentElement.clientHeight
     }
   }
 
   onRefresh = () => {
-    this.setState({
-      refreshing: true
-    })
-    setTimeout(() => {
-      this.setState({ refreshing: false })
-    }, 1000)
+    this.props.refresh()
   }
 
   componentDidMount () {
-    const hei = this.state.height - ReactDOM.findDOMNode(this.ptr).offsetTop
+    const hei = this.state.height - 89
     setTimeout(() => {
       this.setState({
         height: hei
@@ -41,7 +36,11 @@ export default class List extends Component {
         refreshing={this.state.refreshing}
         onRefresh={this.onRefresh}
       >
-        <div>1</div>
+        {
+          this.props.topics.map(item => 
+            <ListItem data={item} key={item.id} />  
+          )
+        }
       </PullToRefresh>
     )
   }
