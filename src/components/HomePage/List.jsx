@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { PullToRefresh } from 'antd-mobile'
 import ListItem from './ListItem'
+import ReactDOM from 'react-dom'
 
 export default class List extends Component {
   constructor (props) {
@@ -15,7 +16,7 @@ export default class List extends Component {
   }
 
   componentDidMount () {
-    const hei = this.state.height - 89
+    const hei = this.state.height - ReactDOM.findDOMNode(this.ptr).getBoundingClientRect().top
     setTimeout(() => {
       this.setState({
         height: hei
@@ -32,7 +33,7 @@ export default class List extends Component {
           height: this.state.height,
           overflow: 'auto'
         }}
-        refreshing={this.state.refreshing}
+        refreshing={this.props.isFetching}
         onRefresh={this.onRefresh}
       >
         {
