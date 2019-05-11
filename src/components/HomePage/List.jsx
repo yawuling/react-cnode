@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { PullToRefresh } from 'antd-mobile'
-import ReactDOM from 'react-dom'
 import ListItem from './ListItem'
 
 export default class List extends Component {
