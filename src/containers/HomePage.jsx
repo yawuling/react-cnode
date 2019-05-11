@@ -39,7 +39,12 @@ class HomePage extends Component {
 
   handleTabRefresh = () => {
     const { activeTab, dispatch } = this.props
-    dispatch(fetchTopics(activeTab))
+    dispatch(fetchTopics(activeTab, 1))
+  }
+
+  handleLoadMore = () => {
+    const { activeTab, dispatch, tabs } = this.props
+    dispatch(fetchTopics(activeTab, tabs[activeTab].pageNo + 1))
   }
 
   render () {
@@ -51,18 +56,13 @@ class HomePage extends Component {
             {
               this.tabs.map((tab, index) => {
                 let { isFetching, topics } = this.props.tabs[tab.sub]
-                return <List key={tab.sub} isFetching={isFetching} topics={topics} refresh={this.handleTabRefresh} />
+                return <List key={tab.sub} isFetching={isFetching} topics={topics} refresh={this.handleTabRefresh} loadmore={this.handleLoadMore} />
               })
             }
           </Tabs>
         </div>
       </div>
     )
-  }
-
-  componentWillMount () {
-    const { activeTab, dispatch } = this.props
-    dispatch(fetchTopics(activeTab))
   }
 
   componentWillReceiveProps (newProps) {

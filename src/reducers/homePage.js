@@ -56,31 +56,31 @@ export default (state = {
     'all': {
       isFetching: false,
       topics: [],
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 20
     },
     'good': {
       isFetching: false,
       topics: [],
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 20
     },
     'share': {
       isFetching: false,
       topics: [],
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 20
     },
     'ask': {
       isFetching: false,
       topics: [],
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 20
     },
     'job': {
       isFetching: false,
       topics: [],
-      pageNo: 1,
+      pageNo: 0,
       pageSize: 20
     }
   }
