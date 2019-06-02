@@ -47,17 +47,20 @@ const loginFail = errorMsg => ({
 export const SELECT_TAB = 'SELECT_TAB' // 选择tab
 export const REQUEST_TOPICS = 'REQUEST_TOPICS' // 请求tab数据
 export const RECEIVE_TOPICS = 'RECEIVE_TOPICS' // 接受tab数据
+export const SET_SCROLL_TOP = 'SET_SCROLL_TOP' // 设置tab的滚动高度
 
 export const selectTab = tab => ({
   type: SELECT_TAB,
   tab
 })
 
+// 请求tab数据
 export const requestTabData = tab => ({
   type: REQUEST_TOPICS,
   tab
 })
 
+// 接收tab数据
 export const receiveTabData = (tab, topics, pageNo, pageSize) => ({
   type: RECEIVE_TOPICS,
   tab,
@@ -66,6 +69,7 @@ export const receiveTabData = (tab, topics, pageNo, pageSize) => ({
   topics
 })
 
+// 异步请求tba的列表数据
 export const fetchTopics = (tab, pageNo = 1, pageSize = 20) => {
   return dispatch => {
     dispatch(requestTabData(tab))
@@ -82,3 +86,10 @@ export const fetchTopics = (tab, pageNo = 1, pageSize = 20) => {
     })
   }
 }
+
+// 设置tab列表高度
+export const setScrollTop = (tab, scrollTop) => ({
+  type: SET_SCROLL_TOP,
+  tab,
+  scrollTop
+})

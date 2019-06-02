@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Header from '../components/HomePage/Header'
 import { Tabs } from 'antd-mobile'
 import { connect } from 'react-redux'
-import { selectTab, fetchTopics } from '../store/actions'
+import { selectTab, fetchTopics, setScrollTop } from '../store/actions'
 import List from '../components/HomePage/List'
 
 class HomePage extends Component {
@@ -47,7 +47,13 @@ class HomePage extends Component {
     dispatch(fetchTopics(activeTab, tabs[activeTab].pageNo + 1))
   }
 
+  handleScrollTop = scrollTop => {
+    const { activeTab, dispatch } = this.props
+    dispatch(setScrollTop(activeTab, scrollTop))
+  }
+
   render () {
+
     return (
       <div className={ this.state.fadeIn ? 'fade-in' : '' }>
         <Header unreadMsmNum={1} />
@@ -55,8 +61,18 @@ class HomePage extends Component {
           <Tabs tabs={this.tabs} initialPage={this.props.activeTab} onTabClick={this.handleTabClick}>
             {
               this.tabs.map((tab, index) => {
-                let { isFetching, topics } = this.props.tabs[tab.sub]
-                return <List key={tab.sub} isFetching={isFetching} topics={topics} refresh={this.handleTabRefresh} loadmore={this.handleLoadMore} />
+                let { isFetching, topics, scrollTop } = this.props.tabs[tab.sub]
+                return <List
+                  key={tab.sub}
+                  activeTab={this.props.activeTab}
+                  tab={tab.sub}
+                  isFetching={isFetching}
+                  topics={topics}
+                  refresh={this.handleTabRefresh}
+                  loadmore={this.handleLoadMore}
+                  scrollTop={scrollTop}
+                  setScrollTop={this.handleScrollTop}
+                />
               })
             }
           </Tabs>

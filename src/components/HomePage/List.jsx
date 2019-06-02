@@ -20,12 +20,21 @@ export default class List extends Component {
     })
     this.state = {
       dataSource,
-      height: document.documentElement.clientHeight
+      height: document.documentElement.clientHeight,
+      refreshing: false
     }
   }
 
   componentWillMount () {
-    this.props.loadmore()
+    if (!this.props.topics.length) {
+      if (this.props.tab === this.props.activeTab) {
+        this.props.loadmore()
+      }
+    } else {
+      this.setState({
+        dataSource: this.state.dataSource.cloneWithRows(this.props.topics)
+      })
+    }
   }
 
   componentDidMount () {
@@ -35,12 +44,29 @@ export default class List extends Component {
         height: hei
       })
     }, 0)
+    this.lv.scrollTo(0, this.props.scrollTop)    
   }
 
   componentWillReceiveProps (newProps) {
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(newProps.topics)
     })
+    if (!newProps.isFetching) {
+      this.setState({
+        refreshing: false
+      })
+    }
+  }
+
+  onScroll = (e) => {
+    this.props.setScrollTop(e.target.scrollTop)
+  }
+
+  refresh = () => {
+    this.setState({
+      refreshing: true
+    })
+    this.props.refresh()
   }
 
   render () {
@@ -54,6 +80,7 @@ export default class List extends Component {
     return (
       <ListView
         ref={el => this.lv = el}
+        initialListSize={1000}
         dataSource={this.state.dataSource}
         renderFooter={loading}
         renderBodyComponent={() => <ListBody />}
@@ -66,9 +93,11 @@ export default class List extends Component {
         scrollRenderAheadDistance={500}
         onEndReached={this.props.loadmore}
         onEndReachedThreshold={10}
+        onScroll={this.onScroll}
         pullToRefresh={<PullToRefresh
-          refreshing={this.props.isFetching}
-          onRefresh={this.props.refresh}
+          damping={60}
+          refreshing={this.state.refreshing}
+          onRefresh={this.refresh}
         />}
       />
     )

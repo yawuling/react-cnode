@@ -1,7 +1,8 @@
 import {
   SELECT_TAB,
   REQUEST_TOPICS,
-  RECEIVE_TOPICS
+  RECEIVE_TOPICS,
+  SET_SCROLL_TOP
 } from '../store/actions'
 
 // 拆分首页状态
@@ -45,6 +46,14 @@ const getTabsData = (state = {}, action) => {
         ...state,
         [action.tab]: tabData(state[action.tab], action)
       }
+    case SET_SCROLL_TOP:
+      return {
+        ...state,
+        [action.tab]: {
+          ...state[action.tab],
+          scrollTop: action.scrollTop
+        }
+      }
     default:
       return state
   }
@@ -57,31 +66,36 @@ export default (state = {
       isFetching: false,
       topics: [],
       pageNo: 0,
-      pageSize: 20
+      pageSize: 20,
+      scrollTop: 0
     },
     'good': {
       isFetching: false,
       topics: [],
       pageNo: 0,
-      pageSize: 20
+      pageSize: 20,
+      scrollTop: 0
     },
     'share': {
       isFetching: false,
       topics: [],
       pageNo: 0,
-      pageSize: 20
+      pageSize: 20,
+      scrollTop: 0
     },
     'ask': {
       isFetching: false,
       topics: [],
       pageNo: 0,
-      pageSize: 20
+      pageSize: 20,
+      scrollTop: 0
     },
     'job': {
       isFetching: false,
       topics: [],
       pageNo: 0,
-      pageSize: 20
+      pageSize: 20,
+      scrollTop: 0
     }
   }
 }, action) => {
