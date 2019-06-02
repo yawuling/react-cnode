@@ -52,33 +52,25 @@ export default class List extends Component {
     )
 
     return (
-      <PullToRefresh
-        damping={60}
-        ref={el => this.ptr = el}
+      <ListView
+        ref={el => this.lv = el}
+        dataSource={this.state.dataSource}
+        renderFooter={loading}
+        renderBodyComponent={() => <ListBody />}
+        renderRow={row}
         style={{
           height: this.state.height,
           overflow: 'auto'
         }}
-        refreshing={this.props.isFetching}
-        onRefresh={this.props.refresh}
-      >
-        <ListView
-          ref={el => this.lv = el}
-          dataSource={this.state.dataSource}
-          renderFooter={loading}
-          renderBodyComponent={() => <ListBody />}
-          renderRow={row}
-          style={{
-            height: this.state.height,
-            overflow: 'auto'
-          }}
-          pageSize={20}
-          scrollRenderAheadDistance={500}
-          onEndReached={this.props.loadmore}
-          onEndReachedThreshold={10}
-          pullToRefresh
-        />
-      </PullToRefresh>
+        pageSize={20}
+        scrollRenderAheadDistance={500}
+        onEndReached={this.props.loadmore}
+        onEndReachedThreshold={10}
+        pullToRefresh={<PullToRefresh
+          refreshing={this.props.isFetching}
+          onRefresh={this.props.refresh}
+        />}
+      />
     )
   }
 }
