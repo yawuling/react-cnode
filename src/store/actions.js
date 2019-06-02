@@ -73,7 +73,7 @@ export const receiveTabData = (tab, topics, pageNo, pageSize) => ({
 export const fetchTopics = (tab, pageNo = 1, pageSize = 20) => {
   return dispatch => {
     dispatch(requestTabData(tab))
-    axios.get('https://cnodejs.org/api/v1/topics', {
+    return axios.get('https://cnodejs.org/api/v1/topics', {
       params: {
         tab,
         page: pageNo,
@@ -93,3 +93,30 @@ export const setScrollTop = (tab, scrollTop) => ({
   tab,
   scrollTop
 })
+
+
+/**
+ * 文章详情页 Article
+ */
+export const REQUEST_ARTICLE = 'REQUEST_ARTICLE'
+export const RECEIVE_ARTICLE = 'RECEIVE_ARTICLE'
+
+export const requestArticle = () => ({
+  type: REQUEST_ARTICLE
+})
+
+export const receiveArticle = info => ({
+  type: RECEIVE_ARTICLE,
+  info
+})
+
+export const fetchArticle = id => {
+  return dispatch => {
+    dispatch(requestArticle())
+    axios.get(`https://cnodejs.org/api/v1/topic/${id}`).then(res => {
+      if (res.data.success) {
+        dispatch(receiveArticle(res.data.data))
+      }
+    })
+  }
+}

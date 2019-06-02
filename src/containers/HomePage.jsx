@@ -6,13 +6,6 @@ import { selectTab, fetchTopics, setScrollTop } from '../store/actions'
 import List from '../components/HomePage/List'
 
 class HomePage extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {
-      fadeIn: true
-    }
-  }
-
   tabs = [
     {
       title: '全部',
@@ -55,9 +48,9 @@ class HomePage extends Component {
   render () {
 
     return (
-      <div className={ this.state.fadeIn ? 'fade-in' : '' }>
+      <div className="fade-in">
         <Header unreadMsmNum={1} />
-        <div className="home-container">
+        <div className="page-container">
           <Tabs tabs={this.tabs} initialPage={this.props.activeTab} onTabClick={this.handleTabClick}>
             {
               this.tabs.map((tab, index) => {
@@ -90,7 +83,7 @@ class HomePage extends Component {
   }
 }
 
-function mapStatuToProps (state) {
+function mapStateToProps (state) {
   const { homePage } = state
   const { activeTab, tabs } = homePage
   return {
@@ -99,4 +92,4 @@ function mapStatuToProps (state) {
   }
 }
 
-export default connect(mapStatuToProps)(HomePage)
+export default connect(mapStateToProps)(HomePage)

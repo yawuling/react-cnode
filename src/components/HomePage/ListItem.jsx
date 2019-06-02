@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import transformDate from '../../utils/transformDate'
 import '../../assets/css/components/HomePage/listItem.scss'
 
 export default class ListItem extends Component {
@@ -13,7 +14,7 @@ export default class ListItem extends Component {
           <div className="list-item-info">
             <div className="list-item-line is-flex is-between">
               <div className="list-item-nickname">{ loginname }</div>
-              <div className="list-item-date">{ create_at }</div>
+              <div className="list-item-date">{ transformDate(create_at) }</div>
             </div>
             <div className="list-item-line is-flex is-space">
               {

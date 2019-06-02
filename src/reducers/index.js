@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux'
 import login from './login'
 import homePage from './homePage'
+import article from './article'
 
 export default combineReducers({
   login,
-  homePage
+  homePage,
+  article
 })
